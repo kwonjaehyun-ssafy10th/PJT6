@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.video.model.dao.VideoDao">
+	<!-- 
+	<resultMap type="Video" id="VideoMap">
+		<result column="link" property="youtubeId"/>
+		<result column="videoNum" property="id"/>
+		<result column="channel" property="channelName"/>
+		<result column="title" property="title"/>
+		<result column="part" property="fitPartName"/>
+		<result column="viewCnt" property="viewCnt"/>
+	</resultMap>
+	 -->
+	 
+	 
+	<!-- 상세글 조회 -->
+	<select id="selectOne" resultType="Video" parameterType="int">
+		SELECT *
+		FROM Video
+		WHERE id = #{id};
+	</select>
+	
+	<!-- 조회수 증가 -->
+	<update id="updateViewCnt" parameterType="int">
+		UPDATE Video
+		SET viewCnt = viewCnt+1
+		WHERE id = #{id};
+	</update>
+	
+	
+	<!-- 검색기능  -->
+	<select id="selectList" resultType="Video" parameterType="SearchCondition">
+		SELECT *
+		FROM Video
+		<!-- 검색 조건 (동적쿼리)-->
+		<if test="key != null">
+			WHERE ${key} LIKE concat('%', #{word}, '%');
+		</if>
+
+	</select>
+	
+	
+	
+	
+
+
+</mapper>

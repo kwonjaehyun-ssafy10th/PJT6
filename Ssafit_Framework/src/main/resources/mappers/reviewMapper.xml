@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.video.model.dao.ReviewDao">
+<!--  
+	<resultMap type="Review" id="ReviewMap">
+		<result column="videoId" property="id"/>
+		<result column="reviewId" property="reviewNum"/>
+		<result column="writer" property="writer"/>
+		<result column="content" property="content"/>
+	</resultMap>
+-->
+	<!-- 이 방식으로는 커리큘럼 이름을 가지고 올수 없다. -->
+	<!-- <select id="selectAll" resultType="User"> SELECT id, password, name, 
+		curriculum_code as curriculumCode FROM users </select> -->
+
+	<!-- 전체글 조회 -->
+	<select id="selectAll" resultType="Review">
+		SELECT *
+		FROM review;
+	</select>
+
+	<!-- 게시글 등록(서8 박정훈) -->
+	<insert id="insertReview" parameterType="Review">
+		INSERT INTO review
+		VALUES (0, #{videoId}, #{writer}, #{content});
+	</insert>
+
+	<!-- 게시글 삭제 -->
+	<delete id="deleteReview" parameterType="int">
+		DELETE FROM review
+		WHERE
+		reviewId = #{reviewId};
+	</delete>
+
+	<!-- 게시글 수정 -->
+	<!-- 컬럼이 등록 날짜만 관리를 하고 있다. -->
+	<!-- 등록날짜 / 최근 조회날짜 / 수정 날짜 .... -->
+	<update id="updateReview" parameterType="review">
+		UPDATE review
+		SET content
+		= #{content}
+		WHERE reviewNum = #{reviewNum};
+	</update>
+
+	<select id="selectVideo" parameterType="int" resultType="Review">
+		SELECT *
+		FROM review
+		WHERE videoId = #{videoId};
+	</select>
+
+
+</mapper>
