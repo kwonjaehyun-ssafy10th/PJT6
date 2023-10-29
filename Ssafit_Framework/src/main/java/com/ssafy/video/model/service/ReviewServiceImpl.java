@@ -21,8 +21,8 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 
 	@Override
-	public void modifyReview(Review review) {
-		Rdao.updateReview(review);
+	public void modifyReview(int reviewId, String content) {
+		Rdao.updateReview(reviewId, content);
 	}
 
 	@Override

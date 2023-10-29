@@ -4,8 +4,8 @@ import com.ssafy.video.model.dto.User;
 
 public interface UserDao {
 
-	User searchById(String id);
+	public User selectUser(User user);
 	
-	int insert(User user);
+	public void insertUser(User user);
 	
 }

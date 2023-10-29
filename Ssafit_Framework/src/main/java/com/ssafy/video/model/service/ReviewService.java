@@ -15,7 +15,7 @@ public interface ReviewService {
 		void writeReview(Review review);
 
 		// 게시글 수정
-		void modifyReview(Review review);
+		void modifyReview(int reviewId, String content);
 
 		// 게시글 삭제
 		void removeReview(int reviewId);

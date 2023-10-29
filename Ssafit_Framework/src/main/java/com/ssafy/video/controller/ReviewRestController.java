@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -31,7 +32,7 @@ public class ReviewRestController {
 	private ReviewService reviewService;
 
 	@GetMapping("/review")
-	@ApiOperation(value = "게시글 조회", notes = "검색조건도 넣으면 같이 가져온다.")
+	@ApiOperation(value = "전체 게시글 조회", notes = "모든 게시글을 조회한다.")
 	public ResponseEntity<?> list() {
 		List<Review> list = reviewService.selectAll(); // 검색 조건이 있다면 그것으로 조회
 		if (list == null || list.size() == 0)
@@ -41,6 +42,7 @@ public class ReviewRestController {
 	
 	// 2. 상세보기
 	@GetMapping("/review/{id}")
+	@ApiOperation(value = "동영상 별 게시글 조회", notes = "특정 동영상에 달린 모든 게시글을 조회한다.")
 	public ResponseEntity<List<Review>> detail(@PathVariable int id) {
 		List<Review> list = reviewService.getSelectedList(id);
 		return new ResponseEntity<List<Review>>(list, HttpStatus.OK);
@@ -48,6 +50,7 @@ public class ReviewRestController {
 	
 	//3. 등록
 	@PostMapping("/review")
+	@ApiOperation(value = "게시글 등록", notes = "새로운 게시글을 작성한 뒤 등록한다.")
 	public ResponseEntity<Review> write(Review review){
 		reviewService.writeReview(review);
 		//ID는 어차피 중복이 안되서 무조건 게시글이 등록이 된다.
@@ -58,6 +61,7 @@ public class ReviewRestController {
 	
 	//4. 삭제
 	@DeleteMapping("/review/{id}")
+	@ApiOperation(value = "게시글 삭제", notes = "특정 게시글을 삭제한다.")
 	public ResponseEntity<Void> delete(@PathVariable int id){
 		reviewService.removeReview(id);
 		//반환 값을 통해서 지워졌는지 / 안지워졌는지 쳌
@@ -67,12 +71,12 @@ public class ReviewRestController {
 	}
 	
 	//5. 수정
-	@ApiIgnore
-	@PutMapping("/review") //JSON 형태의 데이터로 넘어왔을 떄 처리하고 싶은데?
-	public ResponseEntity<Void> update(@RequestBody Review review){
-		reviewService.modifyReview(review);
+	@PatchMapping("/review/edit/{id}/{content}") //JSON 형태의 데이터로 넘어왔을 떄 처리하고 싶은데?
+	@ApiOperation(value = "게시글 수정", notes = "특정 게시글을 수정한다.")
+	public ResponseEntity<Review> update(@PathVariable("id") int reviewId, @PathVariable("content") String content){
+		reviewService.modifyReview(reviewId, content);
 		//위와같은 상황 대비
 		
-		return new ResponseEntity<Void>(HttpStatus.OK);
+		return new ResponseEntity<Review>(HttpStatus.CREATED);
 	}
 }

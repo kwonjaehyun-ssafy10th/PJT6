@@ -37,11 +37,10 @@
 	<!-- 게시글 수정 -->
 	<!-- 컬럼이 등록 날짜만 관리를 하고 있다. -->
 	<!-- 등록날짜 / 최근 조회날짜 / 수정 날짜 .... -->
-	<update id="updateReview" parameterType="review">
+	<update id="updateReview" parameterType="Review">
 		UPDATE review
-		SET content
-		= #{content}
-		WHERE reviewNum = #{reviewNum};
+		SET content = #{content}
+		WHERE reviewId = #{reviewId};
 	</update>
 
 	<select id="selectVideo" parameterType="int" resultType="Review">

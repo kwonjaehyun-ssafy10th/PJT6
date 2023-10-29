@@ -2,6 +2,8 @@ package com.ssafy.video.model.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.ssafy.video.model.dto.Review;
 
 public interface ReviewDao {
@@ -15,7 +17,7 @@ public interface ReviewDao {
 	public void deleteReview(int id);
 
 	// 게시글 수정
-	public void updateReview(Review review);
+	public void updateReview(@Param("reviewId") int reviewId, @Param("content") String content);
 
 	public List<Review> selectVideo(int videoId);
 
